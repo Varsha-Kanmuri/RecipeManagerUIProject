@@ -1,0 +1,64 @@
+<div class="container-fluid"> 
+<div class="row">
+    <div class="col-sm-5">
+      <h5>Pick a recipe from the list or create youe own !!</h5><br/>
+      <select [(ngModel)]="recipeSelected" (ngModelChange)="getRecipe($event)">
+         <option *ngFor= "let recipe of recipies" [value]="recipe.recipeId">{{recipe.recipeName}}</option>
+      </select>
+      <br><br>
+      <button (click)="addRecipeScreen()">Add Recipe</button>
+    </div>
+    <div *ngIf="welcomeScreen" class="col-sm-7">
+        <h3 >
+        Welcome to Recipe Manager App !
+        </h3>
+    </div>
+    
+    <div *ngIf="fetchScreen" class="col-sm-7">
+      <p>Here's how you prepare: {{recipeFetched.recipeName}}.</p>
+      <p>The list of ingredients are </p>
+      <ul>
+          <li *ngFor="let item of recipeFetched.items">
+            {{item}}
+          </li>
+      </ul>
+    </div>
+    <div *ngIf="addScreen" class="col-sm-7">
+        <div >
+            <h4>Add Recipe</h4>
+            <form>
+               <div class = "form-group">
+                  <label>Recipe Name :</label>
+                  <input type = "text" class ="form-control" id = "recipeName" required
+                     [(ngModel)] = "recipeToAdd.recipeName" name ="recipeName">
+               </div>
+               
+               <div class = "form-group">
+                  <label>Ingredient 1:</label>
+                  <input type = "text" class = "form-control" id = "ingredient1"
+                     [(ngModel)] = "recipeToAdd.items[0]" name = "ingedient1">
+               </div>
+
+               <div class = "form-group">
+                  <label>Ingredient 2:</label>
+                  <input type = "text" class = "form-control" id = "ingredient2"
+                     [(ngModel)] = "recipeToAdd.items[1]" name = "ingedient2">
+               </div>
+
+               <div class = "form-group">
+                  <label>Ingredient 3:</label>
+                  <input type = "text" class = "form-control" id = "ingredient3"
+                     [(ngModel)] = "recipeToAdd.items[2]" name = "ingedient3">
+               </div>
+
+               <div class = "form-group">
+                  <label>Ingredient 4:</label>
+                  <input type = "text" class = "form-control" id = "ingredient4"
+                     [(ngModel)] = "recipeToAdd.items[3]" name = "ingedient4">
+               </div>
+
+               <button type="button" (click)="addRecipe()" class="btn btn-success" [disabled]="!ngForm.valid">Submit</button>
+            </form>
+         </div>
+    </div>
+</div>
