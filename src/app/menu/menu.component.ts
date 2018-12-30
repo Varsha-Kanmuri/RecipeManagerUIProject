@@ -91,7 +91,7 @@ export class MenuComponent implements OnInit {
     };
 
     resetRecipe() {
-      this.recipeToAdd = new Recipe;
+      this.recipeToAdd = new Recipe();
     }
   }
 
