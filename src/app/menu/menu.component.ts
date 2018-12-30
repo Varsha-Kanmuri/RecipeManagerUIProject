@@ -12,7 +12,7 @@ export class MenuComponent implements OnInit {
   recipies:Recipe[];
   recipeList:String[];
   recipeFetched:Recipe = new Recipe();
-  recipeToAdd:Recipe = new Recipe();
+  recipeToAdd:Recipe= new Recipe();
   recipeSelected:Recipe = new Recipe();
   id:number;
   welcomeScreen:boolean = true;
@@ -49,29 +49,50 @@ export class MenuComponent implements OnInit {
         );
     }
 
-    addRecipe() {
-      if(this.recipeToAdd.recipeName && this.recipeToAdd.recipeName != '') {
+    addRecipe(recipeToAdd:Recipe) {
+      if(this.recipeToAdd.recipeName && this.recipeToAdd.recipeName != '' && this.checkIngredientsValid(this.recipeToAdd)) {
        this.recipeServiceService.addRecipe(this.recipeToAdd).subscribe(
          response => {
           this.welcomeScreen = false;
           this.fetchScreen = false;
           this.addScreen = true;
           this.getAllRecipes();
-          alert("Recipe added successfully");
+          alert("Recipe added successfully"); 
          },
-         error => console.log('error', error)
+         error => {
+                    alert('Please check the arguments, ensure your Recipe name is not duplicate');
+                    console.log("error",error);
+        }
       );
      }
-     else {
-       alert("Please enter the required fields");
+     else if(!this.checkIngredientsValid(this.recipeToAdd)){
+       alert("We cannot have recipes with no ingedients!!!");
      }
+     else {
+       alert("Please enter valid Recipe Name");
     }
+
+  };
 
     addRecipeScreen() {
         this.welcomeScreen = false;
         this.fetchScreen = false;
         this.addScreen = true;
     };
+
+    checkIngredientsValid(recipeToAdd:Recipe) {
+      for (var ingredient of recipeToAdd.items) {
+        console.log(ingredient); 
+        if(ingredient != ''){
+          return true;
+        }
+      }
+      return false;
+    };
+
+    resetRecipe() {
+      this.recipeToAdd = new Recipe;
+    }
   }
 
  
